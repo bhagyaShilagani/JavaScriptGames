@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Javascript Color Guessing Game</title>
+</head>
+<body onload="do_game()">
+<script>
+var guessed_color;
+var count = 0;
+var finished = false;
+var target_color;
+var colors = ["blue", "cyan", "gold", "gray", "green", "magenta", "orange", "red", "white", "yellow"];
+
+
+    function random_number(limit){
+      var random_number = Math.random() * limit;
+      return Math.floor(random_number);
+    }
+
+	
+function pickRandomColor(){
+	var min = 0;
+	var max = colors.length;
+	var index = Math.floor(Math.random()*(max-min+1)+min);
+	if(index>(min-1) && index <max)
+		return index;
+	else
+		return min;
+}
+
+function do_game(){
+	target_color = colors[pickRandomColor()];
+	while(!finished) {
+		guessed_color = prompt("I am thinking of one of these colors:\n\n" + 
+		"blue, cyan, gold, gray, green, magenta, orange, red, white, yellow\n" +
+		"What color am I thinking of?\n");
+		count++;
+		if(check_guess()) {
+			alert("Congratulation! You have guessed the color!\nIt took you " + count 
+			+ " count to finish the game!\n\n"
+			+ "You can see the color in the background.");
+			break;
+		}
+	}
+	document.body.style.backgroundColor = target_color;
+}
+
+function check_guess(){
+	if(colors.indexOf(guessed_color)>-1){
+		var position = guessed_color.localeCompare(target_color);
+		if(position == 0){
+			return true;
+		}
+		else {
+			var message = "Sorry your guess is not correct!!\n\n" +
+				"Hint: your color is alphabetically "
+			
+			if( position < 0){
+				message += "lower";
+			}else if(position>0){
+				message += "higher";
+			}				
+			message += " then mine. \n\nPlease try again.";
+			alert(message);
+		}
+	}else{
+		alert("Sorry I don't reconize your color.");
+	}
+	return false;
+}
+
+</script>
+
+</body>
+</html>
